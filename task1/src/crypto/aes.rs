@@ -3,10 +3,14 @@ mod sbox_runtime;
 
 mod sbox_pregen;
 
-struct AES;
+pub struct AES;
 impl AES {
     pub fn new() -> AES {
         AES {}
+    }
+
+    pub fn return_zero(&self) -> Vec<u8> {
+        vec![0] // 🤡
     }
 }
 
