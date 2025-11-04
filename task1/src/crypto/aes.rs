@@ -1,6 +1,4 @@
 #[cfg(feature = "sbox_runtime")]
-mod gf256;
-#[cfg(feature = "sbox_runtime")]
 mod sbox_runtime;
 
 mod sbox_pregen;

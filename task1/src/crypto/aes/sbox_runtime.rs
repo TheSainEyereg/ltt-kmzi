@@ -1,4 +1,5 @@
-use super::gf256::GF;
+mod gf256;
+use gf256::GF;
 
 const SBOX_MATRIX: [[u8; 8]; 8] = [
     [1, 0, 0, 0, 1, 1, 1, 1],
