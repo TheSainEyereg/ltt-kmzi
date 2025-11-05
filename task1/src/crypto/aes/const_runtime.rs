@@ -86,7 +86,7 @@ mod tests {
     use std::rc;
 
     use super::{generate_sbox, generate_sbox_inv, generate_rcon, generate_sbox_value};
-    use crate::crypto::aes::sbox_pregen::{RCON, SBOX, SBOX_INV};
+    use crate::crypto::aes::const_pregen::{RCON, SBOX, SBOX_INV};
 
     #[test]
     fn sbox() {

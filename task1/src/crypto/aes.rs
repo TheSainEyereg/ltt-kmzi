@@ -1,7 +1,7 @@
 #[cfg(feature = "sbox_runtime")]
-mod sbox_runtime;
+mod const_runtime;
 
-mod sbox_pregen;
+mod const_pregen;
 
 pub enum Mode {
     AES128,
