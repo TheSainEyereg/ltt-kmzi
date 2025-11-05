@@ -40,7 +40,7 @@ pub fn generate_sbox_value(value: u8) -> u8 {
     result
 }
 
-pub fn pregenerate_sbox() -> Vec<u8> {
+pub fn generate_sbox() -> Vec<u8> {
     let mut sbox = vec![0; 256];
 
     for i in 0..256 {
@@ -50,7 +50,7 @@ pub fn pregenerate_sbox() -> Vec<u8> {
     sbox
 }
 
-pub fn pregenerate_sbox_inv() -> Vec<u8> {
+pub fn generate_sbox_inv() -> Vec<u8> {
     let mut sbox_inv = vec![0; 256];
 
     for i in 0..256 {
@@ -60,10 +60,33 @@ pub fn pregenerate_sbox_inv() -> Vec<u8> {
     sbox_inv
 }
 
+pub fn generate_rcon(nr: u8) -> Vec<[u8; 4]> {
+    let mut rc: Vec<u8> = vec![0; nr as usize];
+    let mut out: Vec<[u8; 4]> = Vec::new();
+
+    for round in 0..nr as usize {
+        if round == 0 {
+            rc[round] = 1;
+        } else if rc[round - 1] < 0x80 {
+            rc[round] = 2 * rc[round - 1];
+        } else {
+            rc[round] = (2 * rc[round - 1] as u16) as u8 ^ gf256::MOD;
+        }
+    }
+
+    for round in 0..nr as usize {
+        out.push([rc[round], 0, 0, 0]);
+    }
+
+    out
+}
+
 #[cfg(test)]
 mod tests {
-    use super::generate_sbox_value;
-    use crate::crypto::aes::sbox_pregen::{SBOX, SBOX_INV};
+    use std::rc;
+
+    use super::{generate_sbox, generate_sbox_inv, generate_rcon, generate_sbox_value};
+    use crate::crypto::aes::sbox_pregen::{RCON, SBOX, SBOX_INV};
 
     #[test]
     fn sbox() {
@@ -85,7 +108,12 @@ mod tests {
 
     #[test]
     fn sbox_generation() {
-        assert_eq!(SBOX.to_vec(), super::pregenerate_sbox());
-        assert_eq!(SBOX_INV.to_vec(), super::pregenerate_sbox_inv());
+        assert_eq!(SBOX.to_vec(), generate_sbox());
+        assert_eq!(SBOX_INV.to_vec(), generate_sbox_inv());
+    }
+
+    #[test]
+    fn rcon_generation() {
+        assert_eq!(RCON.to_vec(), generate_rcon(10))
     }
 }

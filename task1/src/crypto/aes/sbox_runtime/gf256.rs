@@ -1,4 +1,4 @@
-const MOD: u8 = 0b00011011; //x^8 + x^4 + x^3 + x^1 + 1 => 100011011 as u8 => 00011011
+pub const MOD: u8 = 0b00011011; //x^8 + x^4 + x^3 + x^1 + 1 => 100011011 as u8 => 00011011
 
 pub struct GF;
 impl GF {
